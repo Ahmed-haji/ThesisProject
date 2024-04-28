@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 from scipy.stats import norm
 
 def vega(S, K, t, r, sigma):
@@ -13,13 +12,13 @@ def inflection_point(S, K, t, r):
     m = S/(K*np.exp(-r*t))
     return np.sqrt(2*np.abs(np.log(m)) / t)
 
-def implied_volatility(C, S, K, t, r, tol = 1e-5, max_iter =100) -> float:
+def implied_volatility(C:int, S, K, t, r, tol = 1e-5, max_iter =100) -> float:
     x0 = inflection_point(S, K, t, r)
     p = black_scholes_call(S, K, t, r, x0)
     v = vega(S, K, t, r, x0)
     while (abs(p - C)/v) > tol and max_iter > 0:
         x0 = x0 - (p - C) / v
-        p = black_scholes_call(S, K, t, r, x0)
+        p = black_scholes_call(S, K, t, r, x0) # theoretical price of the option
         v = vega(S, K, t, r, x0)
         max_iter -= 1
     return x0
