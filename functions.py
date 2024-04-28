@@ -12,22 +12,18 @@ def vega(S, K, t, r, sigma):
 def inflection_point(S, K, t, r):
     m = S/(K*np.exp(-r*t))
     return np.sqrt(2*np.abs(np.log(m)) / t)
-def implied_volatility(C,S,K, t, r, price):
-    MAX_ITERATIONS = 100
-    PRECISION = 10e-7
 
+def implied_volatility(C, S, K, t, r, tol = 1e-5, max_iter =100) -> float:
     x0 = inflection_point(S, K, t, r)
-    for i in range(0, MAX_ITERATIONS):
-        price_calculated = black_scholes_call(S, K, t, r, x0)
-        vega_calculated = vega(S, K, t, r, x0)
-
-        price_difference = price - price_calculated
-
-        if abs(price_difference) < PRECISION:
-            return
-
-        x0 = x0 + price_difference / vega_calculated
+    p = black_scholes_call(S, K, t, r, x0)
+    v = vega(S, K, t, r, x0)
+    while (abs(p - C)/v) > tol and max_iter > 0:
+        x0 = x0 - (p - C) / v
+        p = black_scholes_call(S, K, t, r, x0)
+        v = vega(S, K, t, r, x0)
+        max_iter -= 1
     return x0
+
 
 
 
