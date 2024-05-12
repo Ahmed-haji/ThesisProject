@@ -15,7 +15,7 @@ def inflection_point(S, K, t, r):
     return np.sqrt(2 * np.abs(np.log(m)) / t)
 
 
-def implied_volatility(C, s, K, t, r, tol=1e-5, max_iter=100) -> float:
+def implied_volatility(row) -> float:
     """
     Calculate the implied volatility of a European call option using the Black-Scholes model.
     Args:
@@ -30,13 +30,23 @@ def implied_volatility(C, s, K, t, r, tol=1e-5, max_iter=100) -> float:
     Returns:
 
     """
-    x0 = inflection_point(s, K, t, r)
-    p = black_scholes_call(s, K, t, r, x0)
-    v = vega(s, K, t, r, x0)
-    while (abs(p - C) / v) > tol and max_iter > 0:
-        x0 = x0 - (p - C) / v
-        p = black_scholes_call(s, K, t, r, x0)  # theoretical price of the option
-        v = vega(s, K, t, r, x0)
+    s = row['forward_price']
+    k = row['strike_price']
+    t = row['tau']
+    r = row['risk_free_rate']
+    c = row['option_price']
+    max_iter = 1000
+    tol = 1e-9
+
+    x0 = inflection_point(s, k, t, r)
+    p = black_scholes_call(s, k, t, r, x0)
+    v = vega(s, k, t, r, x0)
+    while (abs(p - c) / v) > tol and max_iter > 0:
+        if v < 1e-9:
+            break
+        x0 = x0 - (p - c) / v
+        p = black_scholes_call(s, k, t, r, x0)  # theoretical price of the option
+        v = vega(s, k, t, r, x0)
         max_iter -= 1
     return x0
 

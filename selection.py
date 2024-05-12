@@ -17,5 +17,5 @@ def filter_options(df, time_to_maturity=(24, 40)):
     df = pd.merge(df, atm_prices, on='date', how='left')  # places atm prices on main dataframe
 
     df['moneyness'] = (df['strike_price'] / df['atm_price'])  # calculates the  moneyness
-    df = df[(df['moneyness'] <= 1.1) & (df['moneyness'] >= 0.9)]  # filters options with moneyness between 0.9 and 1.1
+    df = df[(df['moneyness'] <= 1.05) & (df['moneyness'] >= 0.95)]  # filters options with moneyness between 0.9 and 1.1
     return df
