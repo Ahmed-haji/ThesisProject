@@ -6,9 +6,9 @@ import DataPull
 import functions
 
 
-def filter_options(df, time_to_maturity=(24, 40)):
-    df = df[(df['time_to_maturity'] >= 20) & (
-            df['time_to_maturity'] <= 40)]  # filters options with time to maturity between 20 and 40 days
+def filter_options(df, time_to_maturity=(24, 40) ,moneyness=(0.95, 1.05)):
+    df = df[(df['time_to_maturity'] >= time_to_maturity[0])
+            & (df['time_to_maturity'] <= time_to_maturity[1])]  # filters options by time to maturity
 
     atm_prices = df.groupby('date')[
         'forward_price'].median().reset_index()  # calculates the median forward price for each date
@@ -17,5 +17,5 @@ def filter_options(df, time_to_maturity=(24, 40)):
     df = pd.merge(df, atm_prices, on='date', how='left')  # places atm prices on main dataframe
 
     df['moneyness'] = (df['strike_price'] / df['atm_price'])  # calculates the  moneyness
-    df = df[(df['moneyness'] <= 1.05) & (df['moneyness'] >= 0.95)]  # filters options with moneyness between 0.9 and 1.1
+    df = df[(df['moneyness'] <= moneyness[1]) & (df['moneyness'] >= moneyness[0])]  # filters options by moneyness
     return df

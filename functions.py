@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import norm
-
+from scipy.optimize import newton
 
 def vega(S, K, t, r, sigma):
     d1 = (np.log(S / K) + (r + 0.5 * sigma ** 2) * t) / (sigma * np.sqrt(t))
@@ -37,24 +37,22 @@ def implied_volatility(row) -> float:
     c = row['option_price']
     is_call = row['is_call']
 
-    max_iter = 1000
-    tol = 1e-9
-
-    x0 = inflection_point(s, k, t, r)
-    p = black_scholes_call(s, k, t, r, x0)
-    v = vega(s, k, t, r, x0)
-    while (abs(p - c) / v) > tol and max_iter > 0:
-        if v < 1e-9:
-            break
-        x0 = x0 - (p - c) / v
+    def objective(sigma):
         if is_call:
-            p = black_scholes_call(s, k, t, r, x0)
+            price = black_scholes_call(s, k, t, r, sigma)
         else:
-            p = black_scholes_put(s, k, t, r, x0)
+            price = black_scholes_put(s, k, t, r, sigma)
+        return price - c
+    def objective_function_vega(sigma):
+        return vega(s, k, t, r, sigma)
 
-        v = vega(s, k, t, r, x0)
-        max_iter -= 1
-    return x0
+    sigma_guess = inflection_point(s, k, t, r)
+    try:
+        return newton(func=objective, x0=sigma_guess, fprime=objective_function_vega, tol=1e-9, maxiter=1000)
+    except RuntimeError as e:
+        # Handle cases where Newton's method fails to converge
+        return None  # or choose to return an alternative estimate or re-try with a different approach
+
 
 
 def black_scholes_call(s, k, t, r, sigma):
@@ -104,13 +102,19 @@ def black_scholes_put(s, k, t, r, sigma):
     return put_price
 
 def average_daily_implied_volatility(data):
-    data['date'] = pd.to_datetime(data['date'])
+    """
+    Calculate the average implied volatility for each day in the data.
 
-    daily_avg_iv = data.groupby(data['date'].dt.date)['implied_volatility'].mean()
-    daily_avg_iv = daily_avg_iv.reset_index()
-    daily_avg_iv.columns = ['date', 'average_iv']
+    Parameters:
+    data (pd.DataFrame): A DataFrame containing 'date' and 'implied_volatility' columns.
 
-    return daily_avg_iv
+    Returns:
+    pd.DataFrame: A DataFrame containing 'date' and 'average_iv' columns.
+    """
+    # Group the data by date and calculate the average implied volatility for each day
+    daily_average_iv = data.groupby('date')['implied_volatility'].mean().reset_index()
+    daily_average_iv = daily_average_iv.rename(columns={'implied_volatility': 'average_iv'})
+    return daily_average_iv
 
 import matplotlib.pyplot as plt
 
