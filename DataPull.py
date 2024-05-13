@@ -11,10 +11,10 @@ def pull_example_data():
 def pull_alphabet():
     alphabet2017 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\alphabet_2017.json.bz2', compression='bz2', orient='index')
     alphabet2018 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\alphabet_2018.json.bz2', compression='bz2', orient='index')
-    df2019 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\alphabet_2019.json.bz2', compression='bz2', orient='index')
-    df2020 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\alphabet_2020.json.bz2', compression='bz2', orient='index')
-    df2021 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\alphabet_2021.json.bz2', compression='bz2', orient='index')
-    df = pd.concat([df2017, df2018, df2019, df2020, df2021])
+    alphabet2019 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\alphabet_2019.json.bz2', compression='bz2', orient='index')
+    alphabet2020 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\alphabet_2020.json.bz2', compression='bz2', orient='index')
+    alphabet2021 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\alphabet_2021.json.bz2', compression='bz2', orient='index')
+    df = pd.concat([alphabet2017, alphabet2018, alphabet2019, alphabet2020, alphabet2021])
 
     return df
 
