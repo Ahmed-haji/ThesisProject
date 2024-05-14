@@ -4,7 +4,9 @@ import matplotlib.pyplot as plt
 
 
 def pull_example_data():
-    df = pd.read_json(r'C:\Thesis\Datasets\option_data-main\alphabet_2018.json.bz2', compression='bz2', orient='index')
+    sp5002020 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\sp500_2020.json.bz2', compression='bz2', orient='index')
+    sp5002021 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\sp500_2021.json.bz2', compression='bz2', orient='index')
+    df = pd.concat([sp5002020, sp5002021])
     return df
 
 def pull_alphabet():
@@ -52,7 +54,7 @@ def pull_sp500():
     return df
 
 
-def pull_sp500_spesific_years(years):
+def pull_sp500_specific_years(years):
     for year in years:
         sp500 = pd.concat([sp500, pd.read_json(r'C:\Thesis\Datasets\option_data-main\sp500_{}.json.bz2'.format(year), compression='bz2', orient='index')])
     return sp500
