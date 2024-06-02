@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import yfinance as yf
 
 
 def pull_example_data():
@@ -9,7 +9,7 @@ def pull_example_data():
     df = pd.concat([sp5002020, sp5002021])
     return df
 
-def pull_alphabet():
+def pull_alphabet_option_data():
     alphabet2017 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\alphabet_2017.json.bz2', compression='bz2', orient='index')
     alphabet2018 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\alphabet_2018.json.bz2', compression='bz2', orient='index')
     alphabet2019 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\alphabet_2019.json.bz2', compression='bz2', orient='index')
@@ -19,7 +19,7 @@ def pull_alphabet():
 
     return df
 
-def pull_apple():
+def pull_apple_option_data():
     apple2017 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\apple_2017.json.bz2', compression='bz2', orient='index')
     apple2018 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\apple_2018.json.bz2', compression='bz2', orient='index')
     apple2019 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\apple_2019.json.bz2', compression='bz2', orient='index')
@@ -28,7 +28,7 @@ def pull_apple():
     df = pd.concat([apple2017, apple2018, apple2019, apple2020, apple2021])
 
     return df
-def pull_microsoft():
+def pull_microsoft_option_data():
     microsoft_2017 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\microsoft_2017.json.bz2', compression='bz2', orient='index')
     microsoft_2018 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\microsoft_2018.json.bz2', compression='bz2', orient='index')
     microsoft_2019 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\microsoft_2019.json.bz2', compression='bz2', orient='index')
@@ -36,7 +36,7 @@ def pull_microsoft():
     microsoft_2021 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\microsoft_2021.json.bz2', compression='bz2', orient='index')
     df = pd.concat([microsoft_2017, microsoft_2018, microsoft_2019, microsoft_2020, microsoft_2021])
     return df
-def pull_nasdaq100():
+def pull_nasdaq100_option_data():
     nasaq2017 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\nasdaq100_2017.json.bz2', compression='bz2', orient='index')
     nasaq2018 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\nasdaq100_2018.json.bz2', compression='bz2', orient='index')
     nasaq2019 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\nasdaq100_2019.json.bz2', compression='bz2', orient='index')
@@ -44,7 +44,7 @@ def pull_nasdaq100():
     nasaq2021 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\nasdaq100_2021.json.bz2', compression='bz2', orient='index')
     df = pd.concat([nasaq2017, nasaq2018, nasaq2019, nasaq2020, nasaq2021])
     return df
-def pull_sp500():
+def pull_sp500_option_data():
     sp5002017 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\sp500_2017.json.bz2', compression='bz2', orient='index')
     sp5002018 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\sp500_2018.json.bz2', compression='bz2', orient='index')
     sp5002019 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\sp500_2019.json.bz2', compression='bz2', orient='index')
@@ -52,6 +52,11 @@ def pull_sp500():
     sp5002021 = pd.read_json(r'C:\Thesis\Datasets\option_data-main\sp500_2021.json.bz2', compression='bz2', orient='index')
     df = pd.concat([sp5002017, sp5002018, sp5002019, sp5002020, sp5002021])
     return df
+
+
+
+
+
 
 
 def pull_sp500_specific_years(years):
