@@ -23,8 +23,12 @@ are:
 # running the project
 1. Clone the repository
 2. Run the command `pip install -r requirements.txt` to install the required libraries.
+3. Run the command `jupyter lab` to open the jupyter lab.
+4. run the notebooks
 
 
 # Notes 
 
-Most production lives in Jupyterlab subdirectories.These include te files 
+Most production lives in Jupyterlab subdirectories.These include the files for the data analysis and the models.
+The data is stored in the jupyterlab/data folder. The models are in the jupyterlab folder.
+
