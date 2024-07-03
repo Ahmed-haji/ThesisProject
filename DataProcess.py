@@ -14,7 +14,13 @@ def evaluate_regression_metrics(y_true, y_pred):
     mae = metrics.mean_absolute_error(y_true, y_pred)
     r2 = metrics.r2_score(y_true, y_pred)
 
-    return mse, rmse, mae, r2
+    print(f'MSE: {mse}')
+    print(f'RMSE: {rmse}')
+    print(f'MAE: {mae}')
+    print(f'R2: {r2}')
+
+
+    return None
 
 def plot(y_true, y_pred):
     plt.plot(y_true, label='True')
