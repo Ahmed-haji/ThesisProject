@@ -3,7 +3,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 import yfinance as yf
+import sklearn.preprocessing as preprocessing
+from sklearn.model_selection import TimeSeriesSplit
 
 
-def annualized_volatility(returns,window):
+def annualized_volatility(returns, window):
     return returns.rolling(window=window).std() * np.sqrt(252)
+
+

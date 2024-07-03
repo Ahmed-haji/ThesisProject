@@ -54,11 +54,6 @@ def pull_sp500_option_data():
     return df
 
 
-
-
-
-
-
 def pull_sp500_specific_years(years):
     for year in years:
         sp500 = pd.concat([sp500, pd.read_json(r'C:\Thesis\Datasets\option_data-main\sp500_{}.json.bz2'.format(year), compression='bz2', orient='index')])
